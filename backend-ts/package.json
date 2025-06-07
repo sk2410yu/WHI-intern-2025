@@ -24,6 +24,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "i": "^0.3.7",
     "io-ts": "^2.2.22"
   }
 }

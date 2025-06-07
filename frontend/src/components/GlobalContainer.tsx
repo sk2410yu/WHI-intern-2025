@@ -3,13 +3,18 @@ import { VerticalSpacer } from "../components/VerticalSpacer";
 import { GlobalHeader } from "../components/GlobalHeader";
 import { GlobalFooter } from "../components/GlobalFooter";
 
-export function GlobalContainer({ children }: { children?: React.ReactNode }) {
+type GlobalContainerProps = {
+  children?: React.ReactNode;
+  subtitle?: string;
+};
+
+export function GlobalContainer({ children, subtitle }: GlobalContainerProps) {
   return (
     <Container
       sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
       <header>
-        <GlobalHeader title={"タレントマネジメントシステム"} />
+        <GlobalHeader title="タレントマネジメントシステム" subtitle={subtitle}/>
       </header>
 
       <VerticalSpacer height={32} />

@@ -27,3 +27,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* ダークモードに対応させる */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #171717;
+    --foreground: #f0f0f0;
+  }
+}
+

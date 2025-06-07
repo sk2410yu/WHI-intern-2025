@@ -13,10 +13,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "タレントマネジメントシステム",
-  description: "シンプルなタレントマネジメントシステム",
-};
+// export const metadata: Metadata = {
+//   title: "社員検索",
+//   description: "シンプルなタレントマネジメントシステム",
+// };
+// // ページごとにメタデータを設定して
+// // いくつかのページでは、メタデータを上書きすることができます。
+// // 例えば、`app/page.tsx`では、`metadata.title`を"ホーム"に設定することができます。
+// // ただし、`app/layout.tsx`で設定されたメタデータは、
+// // すべてのページで共通して使用されます。
+// // これにより、アプリケーション全体で一貫したメタデータを提供できます。
+// // さらに、`app/layout.tsx`で設定されたメタデータは、
+// // すべてのページでデフォルトのメタデータとして使用されます。
+
 
 export default function RootLayout({
   children,

@@ -20,6 +20,9 @@ export class EmployeeDatabaseInMemory implements EmployeeDatabase {
         if (filterText === "") {
             return employees;
         }
-        return employees.filter(employee => employee.name === filterText);
+        // 完全一致でフィルタリングではなく一部一致に変更
+        return employees.filter(employee => employee.name.includes(filterText));
+        // もし完全一致でフィルタリングしたい場合は、以下のようにコメントアウトを外してください
+        // return employees.filter(employee => employee.name === filterText);
     }
 }

@@ -4,9 +4,10 @@ import Link from "next/link";
 
 export interface GlobalHeaderProps {
   title: string;
+  subtitle?: string; 
 }
 
-export function GlobalHeader({ title }: GlobalHeaderProps) {
+export function GlobalHeader({ title,subtitle }: GlobalHeaderProps) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -25,6 +26,15 @@ export function GlobalHeader({ title }: GlobalHeaderProps) {
               {title}
             </Typography>
           </Link>
+          {subtitle && (
+            <Typography
+              variant="subtitle1"
+              component="span"
+              sx={{ ml: 2, fontWeight: "normal" }}
+            >
+              - {subtitle}
+            </Typography>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

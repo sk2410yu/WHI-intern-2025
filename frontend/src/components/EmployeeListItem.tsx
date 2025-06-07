@@ -4,9 +4,11 @@ import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
 import { Employee } from "../models/Employee";
 import Link from "next/link";
 
+
 export type EmployeeListItemProps = {
   employee: Employee;
 };
+
 
 export function EmployeeListItem(prop: EmployeeListItemProps) {
   const employee = prop.employee;

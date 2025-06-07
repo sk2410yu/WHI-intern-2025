@@ -13,11 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "タレントマネジメントシステム",
-  description: "シンプルなタレントマネジメントシステム",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{

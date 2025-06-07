@@ -2,6 +2,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Avatar, Box, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { Employee } from "../models/Employee";
 import { useCallback, useState } from "react";
+import Link from "next/link";
+import { ArrowBackOutlined } from "@mui/icons-material";
+import { Button } from "@mui/material";
+
 
 const tabPanelValue = {
   basicInfo: "基本情報",
@@ -45,6 +49,14 @@ export function EmployeeDetails(prop: EmployeeDetailsProps) {
   );
 
   return (
+    <>
+     <Box marginBottom={2}>
+      <Link href ="/" passHref>
+       <Button startIcon={<ArrowBackOutlined></ArrowBackOutlined>} variant="outlined">
+        社員一覧に戻る
+       </Button>
+      </Link>
+     </Box>
     <Paper sx={{ p: 2 }}>
       <Box
         display={"flex"}
@@ -85,5 +97,6 @@ export function EmployeeDetails(prop: EmployeeDetailsProps) {
         </TabContent>
       </Box>
     </Paper>
+  </>  
   );
 }

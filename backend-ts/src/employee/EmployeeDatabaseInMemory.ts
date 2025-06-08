@@ -25,4 +25,35 @@ export class EmployeeDatabaseInMemory implements EmployeeDatabase {
         // もし完全一致でフィルタリングしたい場合は、以下のようにコメントアウトを外してください
         // return employees.filter(employee => employee.name === filterText);
     }
+
+    async createEmployee(employee: Omit<Employee, "id">): Promise<Employee> {
+        // 既存のIDを数値に変換して最大値を取得
+        const existingIds = Array.from(this.employees.keys())
+            .map(id => parseInt(id, 10))
+            .filter(id => !isNaN(id));
+        
+        const maxId = existingIds.length > 0 ? Math.max(...existingIds) : 0;
+        const newId = (maxId + 1).toString();
+        
+        const newEmployee = { ...employee, id: newId };
+        this.employees.set(newId, newEmployee);
+        return newEmployee;
+    }
+
+    async deleteEmployee(employee: Omit<Employee, "id">): Promise<Employee> {
+        const targetEmployee = Array.from(this.employees.values()).find(
+            e => e.name === employee.name && 
+                e.age === employee.age && 
+                e.affiliation === employee.affiliation && 
+                e.post === employee.post
+        );
+
+        if (!targetEmployee) {
+            throw new Error("削除対象の従業員が見つかりません");
+        }
+
+        this.employees.delete(targetEmployee.id);
+
+        return targetEmployee;
+    }
 }

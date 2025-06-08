@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export default function EmployeePage() {
   return (
     <GlobalContainer subtitle ="社員詳細">
+    
       { /* Mark EmployeeDetailsContainer as CSR */ }
       <Suspense>
         <EmployeeDetailsContainer />

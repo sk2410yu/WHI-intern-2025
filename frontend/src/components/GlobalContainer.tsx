@@ -16,7 +16,7 @@ export function GlobalContainer({ children, subtitle }: GlobalContainerProps) {
       <header>
         <GlobalHeader title="タレントマネジメントシステム" subtitle={subtitle}/>
       </header>
-
+      
       <VerticalSpacer height={32} />
 
       <main>{children}</main>

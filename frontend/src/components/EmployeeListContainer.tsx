@@ -8,6 +8,8 @@ import { Employee, EmployeeT } from "../models/Employee";
 
 export type EmployeesContainerProps = {
   filterText: string;
+  position: string;
+  department: string;
 };
 
 const EmployeesT = t.array(EmployeeT);
@@ -25,10 +27,13 @@ const employeesFetcher = async (url: string): Promise<Employee[]> => {
   return decoded.right;
 };
 
-export function EmployeeListContainer({ filterText }: EmployeesContainerProps) {
+export function EmployeeListContainer({ filterText, department, position }: EmployeesContainerProps) {
   const encodedFilterText = encodeURIComponent(filterText);
+  const encodeddepartment = encodeURIComponent(department);
+  const encodedPosition = encodeURIComponent(position);
   const { data, error, isLoading } = useSWR<Employee[], Error>(
-    `/api/employees?filterText=${encodedFilterText}`,
+    // `/api/employees?filterText=${encodedFilterText}`,
+    `/api/employees?filterText=${encodedFilterText}&department=${department}&position=${position}`,
     employeesFetcher
   );
   useEffect(() => {
@@ -37,6 +42,9 @@ export function EmployeeListContainer({ filterText }: EmployeesContainerProps) {
     }
   }, [error, filterText]);
   if (data != null) {
+    if (data.length === 0) {
+      return <p>No employees found.</p>;
+    }
     return data.map((employee) => (
       <EmployeeListItem employee={employee} key={employee.id} />
     ));

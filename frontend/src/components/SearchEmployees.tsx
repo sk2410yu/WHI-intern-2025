@@ -5,12 +5,14 @@ import { Paper,
   InputLabel,
   Select,
   MenuItem,
-  type SelectChangeEvent,Box } from "@mui/material";
+  Autocomplete,
+  type SelectChangeEvent, Box } from "@mui/material";
 import { useState } from "react";
 import { EmployeeListContainer } from "./EmployeeListContainer";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { PersonAddOutlined } from "@mui/icons-material";
+import { useEmployeeNames } from "./EmployeeNames";
 
 /** ★ 会社で使う選択肢を API で取る場合は SWR 等に置き換えてください */
 const departments = [
@@ -31,6 +33,7 @@ export function SearchEmployees() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [department, setDepartment]     = useState<string>("");
   const [position,   setPosition]       = useState<string>("");
+  const employeeNames = useEmployeeNames(); // 全社員の名前を取得するカスタムフック
 
   const handleDeptChange = (e: SelectChangeEvent) => setDepartment(e.target.value);
   const handlePosChange  = (e: SelectChangeEvent) => setPosition(e.target.value);
@@ -45,15 +48,29 @@ export function SearchEmployees() {
       }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <TextField
-          placeholder="検索キーワードを入力してください"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-          sx={{ flex: 1, mr: 2 }}
-        />
+        <Autocomplete
+        freeSolo
+        options={employeeNames.map((e) => e.name)} // EmployeeNamesから名前のリストを取得
+
+        // optionから選択した場合の処理
+        onChange={(event, value) => {
+          setSearchKeyword(typeof value === "string" ? value : ""); // valueがstring型の場合のみ設定し、それ以外は空文字にする
+          console.log("選択された氏名:", value);
+        }}
+        // style ={{ width: 600 }}
+        sx={{ flex: 1, mr: 2 }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="氏名を入力してください"
+            value={searchKeyword}
+            onChange={(e) => { setSearchKeyword(e.target.value); console.log(e.target.value); }}
+          />
+        )}
+      />
         <Link href="/new" passHref>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             color="primary"
             startIcon={<PersonAddOutlined />}
           >
@@ -61,6 +78,7 @@ export function SearchEmployees() {
           </Button>
         </Link>
       </Box>
+
 
       {/* 所属ドロップダウン */}
       <FormControl fullWidth>

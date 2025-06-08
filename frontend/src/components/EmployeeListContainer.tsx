@@ -29,8 +29,6 @@ const employeesFetcher = async (url: string): Promise<Employee[]> => {
 
 export function EmployeeListContainer({ filterText, department, position }: EmployeesContainerProps) {
   const encodedFilterText = encodeURIComponent(filterText);
-  const encodeddepartment = encodeURIComponent(department);
-  const encodedPosition = encodeURIComponent(position);
   const { data, error, isLoading } = useSWR<Employee[], Error>(
     // `/api/employees?filterText=${encodedFilterText}`,
     `/api/employees?filterText=${encodedFilterText}&department=${department}&position=${position}`,

@@ -5,9 +5,12 @@ import { Paper,
   InputLabel,
   Select,
   MenuItem,
-  type SelectChangeEvent, } from "@mui/material";
+  type SelectChangeEvent,Box } from "@mui/material";
 import { useState } from "react";
 import { EmployeeListContainer } from "./EmployeeListContainer";
+import Link from "next/link";
+import { Button } from "@mui/material";
+import { PersonAddOutlined } from "@mui/icons-material";
 
 /** ★ 会社で使う選択肢を API で取る場合は SWR 等に置き換えてください */
 const departments = [
@@ -41,11 +44,23 @@ export function SearchEmployees() {
         p: 2,
       }}
     >
-      <TextField
-        placeholder="検索キーワードを入力してください"
-        value={searchKeyword}
-        onChange={(e) => setSearchKeyword(e.target.value)}
-      />
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <TextField
+          placeholder="検索キーワードを入力してください"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          sx={{ flex: 1, mr: 2 }}
+        />
+        <Link href="/new" passHref>
+          <Button 
+            variant="contained" 
+            color="primary"
+            startIcon={<PersonAddOutlined />}
+          >
+            新規社員登録
+          </Button>
+        </Link>
+      </Box>
 
       {/* 所属ドロップダウン */}
       <FormControl fullWidth>

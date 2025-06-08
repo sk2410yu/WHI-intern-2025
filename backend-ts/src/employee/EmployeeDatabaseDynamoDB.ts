@@ -1,4 +1,4 @@
-import { DynamoDBClient, GetItemCommand, GetItemCommandInput, ScanCommand, ScanCommandInput } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, GetItemCommand, GetItemCommandInput, ScanCommand, ScanCommandInput, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { isLeft } from "fp-ts/Either";
 import { EmployeeDatabase } from "./EmployeeDatabase";
 import { Employee, EmployeeT } from "./Employee";
@@ -64,6 +64,40 @@ export class EmployeeDatabaseDynamoDB implements EmployeeDatabase {
                 }
             });
     }
+    async createEmployee(employee: Omit<Employee, 'id'>): Promise<Employee> {
+
+        const scanResult = await this.client.send(
+        new ScanCommand({ TableName: this.tableName, ProjectionExpression: "id" })
+        );
+
+        const ids = (scanResult.Items || [])
+            .map((item) => parseInt(item.id.S || "0", 10))
+            .filter((num) => !isNaN(num));
+
+        const maxId = ids.length > 0 ? Math.max(...ids) : 0;
+        const id = (maxId + 1).toString();
+        const newEmployee = {
+            ...employee,
+            id
+        };
+    
+    const input = {
+        TableName: this.tableName,
+        Item: {
+            id: { S: id },
+            name: { S: newEmployee.name },
+            age: { N: newEmployee.age.toString() },
+            affiliation: { S: newEmployee.affiliation },
+            post: { S: newEmployee.post },
+            
+        }
+    };
+    
+    await this.client.send(new PutItemCommand(input));
+    return newEmployee;
+}
+
+
 }
 
 function mapNullable<T, U>(value: T | null | undefined, mapper: (value: T) => U): U | undefined {

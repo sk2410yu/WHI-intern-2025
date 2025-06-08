@@ -5,6 +5,8 @@ const app = express();
 const port = process.env.PORT ?? 8080;
 const database = new EmployeeDatabaseInMemory();
 
+app.use(express.json());
+
 app.get("/api/employees", async (req: Request, res: Response) => {
     const filterText = req.query.filterText ?? "";
     const department = req.query.department ?? "";
@@ -54,6 +56,19 @@ app.get("/api/employees/:userId", async (req: Request, res: Response) => {
         res.status(200).send(JSON.stringify(employee));
     } catch (e) {
         console.error(`Failed to load the user ${userId}.`, e);
+        res.status(500).send();
+    }
+});
+
+app.post("/api/employees", async (req: Request, res: Response) => {
+    try {
+        const employeeData = req.body;
+        console.log(employeeData)
+        const newEmployee = await database.createEmployee(employeeData);
+        res.status(201).json(newEmployee);
+        //console.log('ここ to create employee:');
+    } catch (e) {
+        console.error('Failed to create employee:', e);
         res.status(500).send();
     }
 });
